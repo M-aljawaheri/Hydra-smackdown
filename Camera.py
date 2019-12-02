@@ -32,7 +32,11 @@ class camera:
     # zoom factor > 0 zoom in -- < 0 zoom out
     def relativeToScreen(self, x, y, width, height):
         # take world x coordinates, offset by camera position with window centered around it
-        newCoordinates = [(x - self.posVector.x - width//2) * self.getZoomSlowed() + self.wndWidth//2, (y - self.posVector.y - height//2)*self.getZoomSlowed() + self.wndHeight//2]
+        newCoordinates = \
+        [(x - self.posVector.x - width//2) * \
+        self.getZoomSlowed() + self.wndWidth//2, \
+        (y - self.posVector.y - height//2)*self.getZoomSlowed() + \
+        self.wndHeight//2]
         return newCoordinates
 
     # increase or decrease zoom
@@ -59,7 +63,9 @@ class camera:
         # normalize vector
         directionVector.normalize()
         # follow target, multiply by distance to (update camera pos)
-        self.posVector.xy = self.posVector.x + (directionVector.x * self.speed * deltaTime * distance), self.posVector.y + (directionVector.y * self.speed * deltaTime * distance)
+        self.posVector.xy = self.posVector.x + \
+        (directionVector.x * self.speed * deltaTime * distance),\
+        self.posVector.y + (directionVector.y * self.speed * deltaTime * distance)
 
     def getZoomSlowed(self):
         # if slowed zoom didn't catch up to zoom yet

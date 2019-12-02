@@ -8,9 +8,12 @@ class userInterface:
         self.gameWindow = self.game.gameWindow
         self.wndWidth, self.wndHeight = self.gameWindow.get_size()
         # Make boss healthbar object
-        self.bossHP = bossHealthBar(self.gameAssets.allGameImages.healthBarGreen, 700, 300, self.wndWidth/2 - 350, self.wndHeight - 150, True, False, self.game)
-        self.bossHPTrail = bossHealthBar(self.gameAssets.allGameImages.healthBarRed, 700, 100, self.wndWidth/2 - 350, self.wndHeight - 64, True, True, self.game)
-        self.bossHPFrame = bossHealthBar(self.gameAssets.allGameImages.HPbossFrame, 710, 300, self.wndWidth/2 - 355, self.wndHeight - 145, False, False, self.game)
+        self.bossHP = bossHealthBar(self.gameAssets.allGameImages.healthBarGreen,\
+        700, 300, self.wndWidth/2 - 350, self.wndHeight - 150, True, False, self.game)
+        self.bossHPTrail = bossHealthBar(self.gameAssets.allGameImages.healthBarRed, \
+        700, 100, self.wndWidth/2 - 350, self.wndHeight - 64, True, True, self.game)
+        self.bossHPFrame = bossHealthBar(self.gameAssets.allGameImages.HPbossFrame, \
+        710, 300, self.wndWidth/2 - 355, self.wndHeight - 145, False, False, self.game)
         # Make player health bar
 
     # main update method for all user interface
@@ -38,17 +41,20 @@ class bossHealthBar:
     def update(self):
         # take from boss
         if self.isExpansive:
-            self.healthPercent = self.game.allEntities["Hydra"].health / self.game.allEntities["Hydra"].maxHP
+            self.healthPercent = self.game.allEntities["Hydra"].health \
+            / self.game.allEntities["Hydra"].maxHP
             if not self.isSlow:
                 # update width
                 self.width = ceil(self.maxWidth*self.healthPercent)
             else:
                 # make a slow trail
-                self.width = ceil(self.maxWidth*self.healthPercent) + self.widthCounter
+                self.width = ceil(self.maxWidth*self.healthPercent)\
+                + self.widthCounter
                 if self.widthCounter > 0:
                     self.widthCounter -= 1
             if self.width >= 0 :
-                self.image = pygame.transform.scale(self.image, [self.width, self.height])
+                self.image = pygame.transform.scale(self.image,\
+                [self.width, self.height])
         # draw
         self.gameWindow.blit(self.image, [self.xpos, self.ypos])
 
@@ -72,4 +78,3 @@ class playerHealthBar:
     def update(self):
         # health is index for animation
         self.gameWindow.blit(self.animationList[8  - self.player.health], [self.x, self.y])
-

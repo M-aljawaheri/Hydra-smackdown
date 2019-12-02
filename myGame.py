@@ -238,7 +238,7 @@ class gameImages:
 ## Class to load all game sound files
 class gameSounds:
     def __init__(self):
-        self.menuMusic = pygame.mixer.music.load("sound files\\World of Warcraft Login Music.mp3")
+        self.menuMusic = pygame.mixer.music.load("sound files\\Login Music.mp3")
         self.buttonPress = pygame.mixer.Sound("sound files\\playButton.wav")
         # https://www.freesoundeffects.com/free-sounds/fireball-10079/ Free for non-commerical use
         self.fireSound1 = pygame.mixer.Sound("sound files\\FireAttackSound.wav")

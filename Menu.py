@@ -35,9 +35,11 @@ class gameIntro:
         mouseX, mouseY = self.allGameStates.currentInput.getMousePos()
         # if mouse clicked and button collide
         if self.allGameStates.currentInput.mouseClicked:
-            if self.Button1.collidepoint(mouseX, mouseY or self.Button2.collidepoint(mouseX, mouseY)):
+            if self.Button1.collidepoint(mouseX, mouseY or self.Button2.\
+                collidepoint(mouseX, mouseY)):
                 # change current state to point to a gamelogic object
-                self.allGameStates.currentState = gameLogic.mainGame(self.gameAssets, self.allGameStates, self.gameWindow)
+                self.allGameStates.currentState = gameLogic.mainGame\
+                (self.gameAssets, self.allGameStates, self.gameWindow)
                 # play button press sound
                 self.gameAssets.allGameSounds.buttonPress.play()
                 # change game music

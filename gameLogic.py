@@ -251,7 +251,7 @@ class characters:
             enemiesInRange = self.aoeCollision(50)
             if enemiesInRange:
                 for enemy in enemiesInRange:
-                    enemy.takeDamage(50)
+                    enemy.takeDamage(200)
             self.animationStates["Attack1"] = False
             self.animationStates["Idle"] = True
             self.animationCounter = 0   # Reset animation counter at end
@@ -288,8 +288,12 @@ class characters:
     def changeCharacter(self, character):
         for category in self.game.gameAssets.allGameImages.allCharacterAnimations[character]:
             for i in range(len(category)):
-                self.game.gameAssets.allGameImages.allCharacterAnimations[character][category][i] = pygame.transform.scale(self.game.gameAssets.allGameImages.allCharacterAnimations[character][category][i], (self.width, self.height))
-        self.allPlayerAnimations = self.game.gameAssets.allGameImages.allCharacterAnimations[character]
+                self.game.gameAssets.allGameImages.allCharacterAnimations\
+                [character][category][i] = pygame.transform.scale(self.game\
+                .gameAssets.allGameImages.allCharacterAnimations[character]\
+                [category][i], (self.width, self.height))
+        self.allPlayerAnimations = self.game.gameAssets.allGameImages.\
+        allCharacterAnimations[character]
 
 
 
@@ -337,7 +341,8 @@ class platforms:
         # Update physics
         self.x, self.y = self.physicsManager.getPos()
         # Draw  self.dimension is center, hence drawing should be offset by dimension/2
-        drawCoordinates = self.camera.relativeToScreen(self.x, self.y, self.width, self.height)
+        drawCoordinates = self.camera.relativeToScreen(self.x, self.y,\
+        self.width, self.height)
         self.gameWindow.blit(self.platformImage, drawCoordinates)
 
 
@@ -369,12 +374,15 @@ class boss:
         # Scale idle animations
         for animation in animationDictionary:
             for i in range(len(animationDictionary[animation])):
-                animationDictionary[animation][i] = pygame.transform.scale(animationDictionary[animation][i], [self.width, self.height])
+                animationDictionary[animation][i] = pygame.transform.scale\
+                (animationDictionary[animation][i], [self.width, self.height])
         # scale weather effects
         for i in range(len(self.allSpellEffects["Blizzard"])):
-            self.allSpellEffects["Blizzard"][i] = pygame.transform.scale(self.allSpellEffects["Blizzard"][i], [self.wndWidth, self.wndHeight])
+            self.allSpellEffects["Blizzard"][i] = pygame.transform.scale\
+            (self.allSpellEffects["Blizzard"][i], [self.wndWidth, self.wndHeight])
         for i in range(len(self.allSpellEffects["Rain"])):
-            self.allSpellEffects["Rain"][i] = pygame.transform.scale(self.allSpellEffects["Rain"][i], [self.wndWidth, self.wndHeight])
+            self.allSpellEffects["Rain"][i] = pygame.transform.scale\
+            (self.allSpellEffects["Rain"][i], [self.wndWidth, self.wndHeight])
         # categorize each animation list in animation dictionary
         self.idleAnimations = animationDictionary["Idle"]
         # Default image
@@ -388,8 +396,12 @@ class boss:
         self.timer = pygame.time.get_ticks()
         self.tempTimer = self.timer
         # boss controls his 2 hands
-        self.rightHand = bossHands(self.x, self.y, 400, 400, self.game.gameAssets.allGameImages.allCharacterAnimations["Hydra"]["rightHand"], self.game, self, True)
-        self.leftHand = bossHands(self.x, self.y, 400, 400, self.game.gameAssets.allGameImages.allCharacterAnimations["Hydra"]["leftHand"], self.game, self, False)
+        self.rightHand = bossHands(self.x, self.y, 400, 400, self.game.\
+        gameAssets.allGameImages.allCharacterAnimations["Hydra"]["rightHand"],\
+        self.game, self, True)
+        self.leftHand = bossHands(self.x, self.y, 400, 400, self.game.\
+        gameAssets.allGameImages.allCharacterAnimations["Hydra"]["leftHand"],\
+        self.game, self, False)
 
     ## update boss
     def update(self):
@@ -403,7 +415,8 @@ class boss:
             self.tempTimer = self.timer  # reset temporary timer
         self.animate()                   # animate and draw
         # consult camera
-        drawCoordinates = self.camera.relativeToScreen(self.x, self.y, self.width, self.height)
+        drawCoordinates = self.camera.relativeToScreen\
+        (self.x, self.y, self.width, self.height)
         self.gameWindow.blit(self.image, drawCoordinates)
         # update both hands
         self.rightHand.update()
@@ -491,7 +504,8 @@ class boss:
 
     # cast blizzard weather effect
     def castBlizzard(self):
-        self.gameWindow.blit(self.allSpellEffects["Blizzard"][self.blizzardAnimationCounter%len(self.allSpellEffects["Blizzard"])], [0, 0])
+        self.gameWindow.blit(self.allSpellEffects["Blizzard"][self.\
+        blizzardAnimationCounter%len(self.allSpellEffects["Blizzard"])], [0, 0])
         # slow down player
         self.game.allEntities["Player"].changeSpeed(3)
         self.blizzardAnimationCounter += 1      # animate
@@ -499,7 +513,9 @@ class boss:
 
     def spawnMinion(self, name):
         # get player pos, spawn near player
-        self.activeMinions.append(Judgement(50, 50, 60, 100, 10, game=self.game, fullAnimations=self.game.gameAssets.allGameImages.allCharacterAnimations["Minion1"]["Idle"]))
+        self.activeMinions.append(Judgement(50, 50, 60, 100, 10, game=\
+        self.game, fullAnimations=self.game.gameAssets.allGameImages.\
+        allCharacterAnimations["Minion1"]["Idle"]))
 
 
 #
@@ -520,7 +536,8 @@ class bossHands:
                                  (self.width, self.height)))
         if isRight:
             for i in range(len(self.animationList)):
-                self.animationList[i] = pygame.transform.flip(self.animationList[i], True, False)
+                self.animationList[i] = pygame.transform.flip\
+                (self.animationList[i], True, False)
         self.animationLen = len(self.animationList)
         self.animationCounter = 0
         self.isCast = False

@@ -190,4 +190,6 @@ class judgementAI:
         # normalize
         directionVector.normalize()
         if distance > 20:
-            self.posVector.xy = self.posVector.x + (directionVector.x*self.speed*deltaTime*0.15*distance), self.posVector.y + (directionVector.y*self.speed*deltaTime*0.15*distance)
+            self.posVector.xy = self.posVector.x + \
+            (directionVector.x*self.speed*deltaTime*0.15*distance), \
+            self.posVector.y + (directionVector.y*self.speed*deltaTime*0.15*distance)

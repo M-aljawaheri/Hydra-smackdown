@@ -172,7 +172,9 @@ class expansiveExplosion:
         # check for collision with player
         if self.isCollide(self.target.x, self.target.y, self.target.width, self.target.height):
             self.game.allEntities["Player"].takeDamage(8)
-        drawCoordinates = self.camera.relativeToScreen(self.x, self.y, self.width + self.enlargeCounter, self.height + self.enlargeCounter)
+        drawCoordinates = self.camera.relativeToScreen\
+        (self.x, self.y, self.width + self.enlargeCounter, self.height\
+        + self.enlargeCounter)
         self.game.gameWindow.blit(self.animationList[self.animationCounter % self.length], drawCoordinates)
         # if not at end of animation increment animation
         if self.animationCounter < self.length - 1:
