@@ -42,8 +42,24 @@ class physicsBody:
         # platform box shape
         self.objectBox = Box2D.b2PolygonShape(box=(dimensionX/2, dimensionY/2))
         # fixture definition
-        self.objectBoxFixture = Box2D.b2FixtureDef(shape=self.objectBox)
+        if isDynamic:
+            self.objectBoxFixture = Box2D.b2FixtureDef(shape=self.objectBox)
+        else:
+            self.objectBoxFixture = Box2D.b2FixtureDef(shape=self.objectBox, density=1, friction=0.3)
         self.body.CreateFixture(self.objectBoxFixture)
+
+        # the boundaries
+        # The boundaries
+        ground = world.CreateBody(position=(400, 0))
+        ground.CreateEdgeChain(
+            [(-1200, -1200),
+             (-1200, 1200),
+             (2000, 2000),
+             (2000, -1200),
+             (-1200, -1200)]
+        )
+
+        world.CreateFrictionJoint(bodyA=ground, bodyB=self.body)
 
         # transform point
         #self.createTransformPoint()
@@ -60,13 +76,14 @@ class physicsBody:
     def applyForce(self, force):
         # Get center of mass in simulation coordinates
         vec2Pos = self.body.worldCenter
+        vec2Pos.xy = vec2Pos.x, vec2Pos.y
         # Apply force
         self.body.ApplyForce(force=force, point=vec2Pos, wake=True)
 
-    def applyImpulse(self, impulse):
+    def applyImpulse(self, impulse, x, y):
         # Get center of mass in simulation coordinates
         vec2Pos = self.body.worldCenter
-        self.body.ApplyLinearImpulse(impulse, vec2Pos, True)
+        self.body.ApplyLinearImpulse(Box2D.b2Vec2(100, 0), vec2Pos, True)
 
     def updatePhysics(self):
         # Set angular damping to zero to avoid spinning
@@ -74,4 +91,4 @@ class physicsBody:
         # Reset angle
         self.body.angle = 0.0
         # Apply downwards force
-        self.applyForce((0, 350))
+        #self.applyForce((0, 350))
