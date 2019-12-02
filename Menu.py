@@ -21,13 +21,11 @@ class gameIntro:
         self.gameWindow = gameWindow
         # initialize buttons
         self.Button1 = Button(gameAssets.allGameImages.playButton, self.w // 2, self.h // 3, self.w // 6, self.h // 4, gameWindow)
-        self.Button2 = Button(gameAssets.allGameImages.playButton, self.w // 2, self.h // 2, self.w // 6, self.h//4, gameWindow)
 
     ## Draw on screen
     def update(self):
         self.gameWindow.blit(self.gameAssets.allGameImages.menuBackground, [0, 0])
         self.Button1.draw()
-        self.Button2.draw()
         self.buttonClickCheck()
 
     ## check current button click

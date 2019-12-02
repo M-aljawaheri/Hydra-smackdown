@@ -52,7 +52,7 @@ class bossHealthBar:
                 + self.widthCounter
                 if self.widthCounter > 0:
                     self.widthCounter -= 1
-            if self.width >= 0 :
+            if self.width >= 0:
                 self.image = pygame.transform.scale(self.image,\
                 [self.width, self.height])
         # draw

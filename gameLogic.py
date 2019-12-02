@@ -100,7 +100,7 @@ class mainGame:
     # take care of game over situations
     def gameOverCheck(self):
         # if player is dead stop
-        if self.allEntities["Player"].health == 0:
+        if self.allEntities["Player"].health == 0 and not self.win:
             self.gameWindow.blit(self.gameAssets.allGameImages.gameOverScreen, [0, 0])
             # if not dead
             if not self.dead:
@@ -110,10 +110,11 @@ class mainGame:
                 self.gameAssets.allGameSounds.shiftPhaseMusic("sadMusic")
                 self.gameOverTimer = self.timer
         else:
-            if self.allEntities["Hydra"].health == 0:
+            if self.allEntities["Hydra"].health == 0 and not self.dead:
                 self.gameWindow.blit(self.gameAssets.allGameImages.gameWinScreen, [0, 0])
                 # if win boolean is not true yet
                 if not self.win:
+                    # start counting down
                     self.gameOverTimer = self.timer
                     self.win = True
                     self.gameAssets.allGameSounds.shiftPhaseMusic("winMusic")
@@ -264,6 +265,10 @@ class characters:
             else:
                 self.health -= hearts
 
+    def healSelf(self, hearts):
+        if hearts > 0 and self.health < 8:
+            self.health += hearts
+
     ## check if boss in range
     def aoeCollision(self, attackRange):
         enemiesInRange = []
@@ -396,10 +401,10 @@ class boss:
         self.timer = pygame.time.get_ticks()
         self.tempTimer = self.timer
         # boss controls his 2 hands
-        self.rightHand = bossHands(self.x, self.y, 400, 400, self.game.\
+        self.rightHand = bossHands(400, 400, self.game.\
         gameAssets.allGameImages.allCharacterAnimations["Hydra"]["rightHand"],\
         self.game, self, True)
-        self.leftHand = bossHands(self.x, self.y, 400, 400, self.game.\
+        self.leftHand = bossHands(400, 400, self.game.\
         gameAssets.allGameImages.allCharacterAnimations["Hydra"]["leftHand"],\
         self.game, self, False)
 
@@ -417,6 +422,7 @@ class boss:
         # consult camera
         drawCoordinates = self.camera.relativeToScreen\
         (self.x, self.y, self.width, self.height)
+        #drawCoordinates = self.x , self.y
         self.gameWindow.blit(self.image, drawCoordinates)
         # update both hands
         self.rightHand.update()
@@ -450,6 +456,8 @@ class boss:
         if amount >= 0 and not self.isImmune:
             self.health -= amount
             self.game.userInterface.bossHPTrail.delayWidth(self.health/self.maxHP)
+        if self.health < 0:
+            self.health = 0
 
     #### methods that help state machine script phases
     def becomeImmune(self):
@@ -521,12 +529,10 @@ class boss:
 #
 ## class for hands
 class bossHands:
-    def __init__(self, x, y, width, height, imageList, game, boss, isRight):
+    def __init__(self, width, height, imageList, game, boss, isRight):
         self.boss = boss
         self.camera = self.boss.camera
         self.gameWindow = game.gameWindow
-        self.x = x
-        self.y = y
         self.isRight = isRight
         self.width = width
         self.height = height
@@ -596,6 +602,7 @@ class Judgement(trashMob):
 
     def update(self):
         if self.health <= 0:
+            self.game.allEntities["Player"].healSelf(1)
             self.die()
         drawCoordinates = self.camera.relativeToScreen(self.x, self.y, self.width, self.height)
         self.gameWindow.blit(self.fullAnimations[self.animationCounter % self.animationLen], drawCoordinates)
